@@ -1,0 +1,25 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ */
+
+package com.mycompany.agendacolab.controller;
+
+import com.mycompany.agendacolab.view.MainFrame;
+import javax.swing.SwingUtilities;
+
+/**
+ *
+ * @author kawterbekka
+ */
+public class AgendaColab {
+
+    
+    public static void main(String[] args) {
+        // Swing apps must be started on the Event Dispatch Thread
+        SwingUtilities.invokeLater(() -> {
+            // Create and show your main window
+            MainFrame frame = new MainFrame();
+            frame.setVisible(true);
+        });
+    }
+}
