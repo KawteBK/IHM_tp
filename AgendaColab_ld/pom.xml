@@ -17,5 +17,11 @@
             <artifactId>jcalendar</artifactId>
             <version>1.4</version>
         </dependency>
-    </dependencies>
+          <dependency>
+               <groupId>cn.openapis</groupId>
+               <artifactId>hy.common.ui</artifactId>
+               <version>1.0.5</version>
+               <type>jar</type>
+          </dependency>
+     </dependencies>
 </project>

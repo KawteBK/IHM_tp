@@ -10,11 +10,25 @@ import java.time.LocalDate;
  * @author kawterbekka
  */
 public class Evenement {
+    
+     public String title;
+     public String resp;
+    public String description;
+    public LocalDate date;
+    public String heur;
 
-    public Evenement(String title, String description, LocalDate date) {
+    public Evenement(String title, String description, LocalDate date, String resp) {
         this.title = title;
         this.description = description;
         this.date = date;
+        this.resp=resp;
+    }
+     public Evenement(String title, String description, LocalDate date, String resp, String heur) {
+        this.title = title;
+        this.description = description;
+        this.date = date;
+        this.resp=resp;
+        this.heur=heur;
     }
 
     public String getTitle() {
@@ -33,6 +47,14 @@ public class Evenement {
         this.title = title;
     }
 
+    public String getResp() {
+        return resp;
+    }
+
+    public void setResp(String resp) {
+        this.resp = resp;
+    }
+
     public void setDescription(String description) {
         this.description = description;
     }
@@ -40,15 +62,25 @@ public class Evenement {
     public void setDate(LocalDate date) {
         this.date = date;
     }
-    
-    public String title;
-    public String description;
-    public LocalDate date;
 
     @Override
     public String toString() {
-        return "Evenement{" + "title=" + title + ", description=" + description + ", date=" + date + '}';
+        return "Evenement{" + "title=" + title + ", resp=" + resp + ", description=" + description + ", date=" + date + ", heur=" + heur + '}';
     }
+
+    public void setHeur(String heur) {
+        this.heur = heur;
+    }
+
+    public String getHeur() {
+        return heur;
+    }
+
+    
+    
+   
+
+    
     
     
     

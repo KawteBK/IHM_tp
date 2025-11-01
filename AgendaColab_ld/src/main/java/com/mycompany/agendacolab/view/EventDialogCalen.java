@@ -21,11 +21,12 @@ public class EventDialogCalen extends javax.swing.JDialog {
     private static Date selectedDate;
     /**
      * Creates new form EventDialogCalen
+     * @param parent
      */
     public EventDialogCalen(java.awt.Frame parent, boolean modal, AgendaController controller, Date date) {
         super(parent, modal);
-           this.controller = controller;
-        this.selectedDate = date;
+           EventDialogCalen.controller = controller;
+        EventDialogCalen.selectedDate = date;
         initComponents();
     }
 
@@ -45,6 +46,10 @@ public class EventDialogCalen extends javax.swing.JDialog {
         btn_cancelC = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        resp = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        heur = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -76,6 +81,16 @@ public class EventDialogCalen extends javax.swing.JDialog {
 
         jLabel3.setText("Description");
 
+        resp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                respActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("Réspensable");
+
+        jLabel5.setText("Heur (optionelle)");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -84,6 +99,15 @@ public class EventDialogCalen extends javax.swing.JDialog {
                 .addGap(55, 55, 55)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel4)
+                        .addGap(95, 95, 95)
+                        .addComponent(jLabel5))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(resp, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(heur))
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(btn_saveC, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btn_cancelC, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -91,7 +115,7 @@ public class EventDialogCalen extends javax.swing.JDialog {
                     .addComponent(jLabel3)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
                     .addComponent(titrC))
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addContainerGap(79, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -100,15 +124,23 @@ public class EventDialogCalen extends javax.swing.JDialog {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(titrC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5))
+                .addGap(1, 1, 1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(resp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(heur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_cancelC, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_saveC, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(79, Short.MAX_VALUE))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         pack();
@@ -123,8 +155,9 @@ public class EventDialogCalen extends javax.swing.JDialog {
         try {
             String titre = titrC.getText().trim();
             String description = descC.getText().trim();
+            String h=heur.getText().trim();
             
-
+  String respo= resp.getText().trim();
 
             if (titre.isEmpty()) {
                 JOptionPane.showMessageDialog(this,
@@ -136,7 +169,7 @@ public class EventDialogCalen extends javax.swing.JDialog {
 
           LocalDate date = selectedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-            Evenement evtObj = new Evenement(titre, description, date);
+            Evenement evtObj = new Evenement(titre, description, date,respo,h);
             controller.ajouterEvenement(evtObj);
 
             JOptionPane.showMessageDialog(this, "Événement ajouté !");
@@ -154,6 +187,10 @@ public class EventDialogCalen extends javax.swing.JDialog {
 
         dispose();
     }//GEN-LAST:event_btn_cancelCActionPerformed
+
+    private void respActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_respActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_respActionPerformed
 
     /**
      * @param args the command line arguments
@@ -202,9 +239,13 @@ public class EventDialogCalen extends javax.swing.JDialog {
     private javax.swing.JButton btn_cancelC;
     private javax.swing.JButton btn_saveC;
     private javax.swing.JTextArea descC;
+    private javax.swing.JTextField heur;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField resp;
     private javax.swing.JTextField titrC;
     // End of variables declaration//GEN-END:variables
 }

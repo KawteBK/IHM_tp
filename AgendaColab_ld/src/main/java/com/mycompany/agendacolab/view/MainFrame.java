@@ -6,8 +6,13 @@ package com.mycompany.agendacolab.view;
 
 import com.mycompany.agendacolab.controller.AgendaController;
 import com.mycompany.agendacolab.model.Evenement;
+import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Date;
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+import org.hy.common.ui.JButton;
 
 /**
  *
@@ -15,21 +20,36 @@ import javax.swing.JFrame;
  */
 public class MainFrame extends javax.swing.JFrame {
      private AgendaController controller;
+     
     /**
      * Creates new form MainFrame
      */
     public MainFrame() {
-        controller=new AgendaController();
-        initComponents();
-         
-    }
+    controller = new AgendaController();
+    initComponents();
+
+    cal.getDayChooser().addPropertyChangeListener("day", evt -> {
+        // Delay execution until after calendar updates
+        SwingUtilities.invokeLater(() -> {
+            Date selectedDate = cal.getDate();
+            if (selectedDate != null) {
+                System.out.println("Clicked: " + selectedDate); // Debug
+                DaySummeryDial dialog = new DaySummeryDial(MainFrame.this, true, controller);
+                dialog.setDate(selectedDate);
+                dialog.setVisible(true);
+                updateh();
+            }
+        });
+    });
+}
+        
     
     private void updateh(){
         ptxt.setText("");
         
         for (Evenement evt: controller.getEvenements())
         {
-            ptxt.setText(ptxt.getText()+evt.getTitle()+" - "+ evt.getDate()+"\n" +evt.getDescription()+"\n\n");
+            ptxt.setText(ptxt.getText()+evt.getTitle()+" - "+ evt.getDate()+"\n" +evt.getResp()+"\n\n");
         }
         
     }
@@ -51,7 +71,6 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         cal = new com.toedter.calendar.JCalendar();
-        ajou_cal = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -69,21 +88,21 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(159, 159, 159)
-                        .addComponent(btn_ajou))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(20, 20, 20)
-                        .addComponent(ptxt, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(ptxt, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(218, 218, 218)
+                        .addComponent(btn_ajou)))
+                .addContainerGap(365, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addComponent(ptxt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(215, 215, 215)
+                .addComponent(ptxt, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 246, Short.MAX_VALUE)
                 .addComponent(btn_ajou)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addGap(14, 14, 14))
         );
 
         jTabbedPane1.addTab("List", jPanel2);
@@ -92,41 +111,38 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 536, Short.MAX_VALUE)
+            .addGap(0, 895, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 320, Short.MAX_VALUE)
+            .addGap(0, 429, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Mensuel", jPanel3);
 
         cal.setBackground(new java.awt.Color(0, 153, 153));
-
-        ajou_cal.setText("Ajouter un evenemet");
-        ajou_cal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ajou_calActionPerformed(evt);
-            }
-        });
+        cal.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        cal.setToolTipText("");
+        cal.setAlignmentX(1.0F);
+        cal.setAlignmentY(1.0F);
+        cal.setAutoscrolls(true);
+        cal.setDecorationBordersVisible(true);
+        cal.setFocusCycleRoot(true);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(cal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(167, 167, 167)
-                .addComponent(ajou_cal, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(187, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(cal, javax.swing.GroupLayout.DEFAULT_SIZE, 863, Short.MAX_VALUE)
+                .addGap(26, 26, 26))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(cal, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(ajou_cal)
-                .addGap(12, 12, 12))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(cal, javax.swing.GroupLayout.DEFAULT_SIZE, 423, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Hebdo", jPanel1);
@@ -135,17 +151,17 @@ public class MainFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(105, 105, 105)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 535, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(104, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(209, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 602, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(81, 81, 81))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(127, Short.MAX_VALUE))
+                .addGap(17, 17, 17)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 427, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(131, Short.MAX_VALUE))
         );
 
         pack();
@@ -160,15 +176,9 @@ dialog.setVisible(true);
 updateh();
     }//GEN-LAST:event_btn_ajouActionPerformed
 
-    private void ajou_calActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajou_calActionPerformed
-        // TODO add your handling code here:
-        Date date=cal.getDate();
-        EventDialogCalen dialog = new EventDialogCalen(this, true,controller,date);
-        dialog.setVisible(true);
-
-        updateh();
-    }//GEN-LAST:event_ajou_calActionPerformed
-
+    
+   
+    
     /**
      * @param args the command line arguments
      */
@@ -195,17 +205,22 @@ updateh();
             java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        
+
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MainFrame().setVisible(true);
+                
             }
+            
         });
+        
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton ajou_cal;
     private javax.swing.JButton btn_ajou;
     private com.toedter.calendar.JCalendar cal;
     private com.toedter.calendar.JCalendarBeanInfo jCalendarBeanInfo1;
